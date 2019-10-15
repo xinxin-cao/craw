@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<mapper xmlns="http://mybatis.org/schema/mybatis-mapper" namespace="com.example.demo.mapper.ProjectMapper">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.demo.mapper.ProjectMapper">
     <resultMap id="BaseResultMap" type="com.example.demo.model.Project">
         <id column="id" jdbcType="INTEGER" property="id"/>
         <result column="menu_name" jdbcType="VARCHAR" property="menuName"/>
@@ -8,8 +9,16 @@
         <result column="result_txt" jdbcType="VARCHAR" property="resultTxt"/>
     </resultMap>
 
-    <insert id="insert" parameterType="com.example.demo.model.Project">
+    <insert id="insertProject" parameterType="com.example.demo.model.Project">
         insert into t_project(id,menu_name,menu_url,result_code,result_txt)
         values(#{id},#{menuName},#{menuUrl},#{resultCode},#{resultTxt})
     </insert>
+
+    <select id="loadPage" resultMap="BaseResultMap">
+        select * from t_project
+    </select>
+
+    <select id="selectById" resultType="String">
+        select menu_url from t_project where id = #{id}
+    </select>
 </mapper>

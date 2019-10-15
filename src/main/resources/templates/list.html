@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>我也不知道写的是啥</title>
+    <link rel="stylesheet" href="/static/bootstrap.min.css" />
+    <script src="/static/bootstrap.min.js"></script>
+    <script src="/static/jquery_1.12.4_jquery.min.js"></script>
+</head>
+<body>
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>序号</th>
+        <th>名称</th>
+        <th>URL</th>
+        <th>操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="project,stat:${projectList}" th:style="'background-color:'+@{${stat.odd}?'#F2F2F2'}">
+        <td th:text="${stat.count}"></td>
+        <td th:text="${project.menuName}"></td>
+        <td th:text="${project.menuUrl}"></td>
+        <td th:text="执行" th:onclick="'javascript:runTest(\''+${project.id}+'\')'"></td>
+    </tr>
+    </tbody>
+</table>
+<div align="center">
+    <a class="allpage"><b th:text="'共 '+ ${pageInfo.getPages()}+ ' 页'"></b></a>
+    <a  th:href="@{/findUserList.do(currentPage=${pageInfo.getFirstPage()})}"  >首页</a>
+    <a th:if="${pageInfo.hasPreviousPage()} == true" th:href="@{/findUserList.do(currentPage=${pageInfo.getPrePage()})}"  >上一页</a>
+    <a th:href="@{'/findUserList.do?currentPage=' + ${i}}"  th:each="i :${#numbers.sequence(pageInfo.firstPage, pageInfo.lastPage)}" th:text="  ${i}"   th:class="${pageInfo.getPageNumber() == i}? 'page-item active' :' page-item' "></a>
+    <a th:if="${pageInfo.hasNextPage()} == true" th:href="@{/findUserList.do(currentPage=${pageInfo.getNextPage()})}" >下一页</a>
+    <a th:href="@{/findUserList.do(currentPage=${pageInfo.getLastPage()})}" >尾页</a>
+</div>
+</body>
+</html>
+<script>
+    function runTest(ttId){
+        $.ajax({
+            url:'/test/runUrl/'+ttId,
+            success:function(data){
+                alert(data);
+             }
+        }
+        )
+    }
+</script>
